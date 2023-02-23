@@ -1,0 +1,1 @@
+export type OperationSystem = 'ios' | 'android' | 'windows' | 'macos' | 'linux';
