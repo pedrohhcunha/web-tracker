@@ -1,3 +1,4 @@
+import {config} from 'dotenv';
 import http from 'http';
 import {Socket} from "socket.io";
 import {Server} from 'socket.io';
@@ -10,6 +11,7 @@ import {
     finishSession,
 } from "./repositories/session.repository";
 
+config();
 const server = http.createServer();
 const io = new Server(server, {
     cors: {
