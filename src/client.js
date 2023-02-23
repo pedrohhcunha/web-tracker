@@ -309,7 +309,7 @@ function identifyElement(event) {
  * It sends browser events to the server, each 2 seconds.
  */
 function init() {
-  const socket = io('http://localhost:3000');
+  const socket = io('https://web-tracker.herokuapp.com');
 
   socket.on('connect', async () => {
 
