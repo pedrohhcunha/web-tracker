@@ -10,4 +10,7 @@ export interface NewSession {
     language: Session["language"];
     ipAddress: Session["ipAddress"];
     location: Session["location"];
+    landingPage: Session["landingPage"];
+    originPage?: Session["originPage"];
+    domain: Session["domain"];
 }

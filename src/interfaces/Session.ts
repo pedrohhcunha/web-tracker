@@ -16,6 +16,9 @@ export interface Session {
     language: string;
     ipAddress?: string;
     location?: Location;
+    landingPage: string;
+    originPage?: string;
+    domain: string;
     events: Event[];
     createdAt: Date;
     finishedAt?: Date;

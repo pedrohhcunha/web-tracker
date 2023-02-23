@@ -1,6 +1,5 @@
 import {Session} from "../interfaces/Session";
 import {randomUUID} from "crypto";
-import fs from 'fs';
 import {SessionModel} from "../models/session.model";
 
 interface createSessionProps {
@@ -14,6 +13,9 @@ interface createSessionProps {
     language: Session["language"];
     location?: Session["location"];
     ipAddress?: Session["ipAddress"];
+    landingPage: Session["landingPage"];
+    originPage?: Session["originPage"];
+    domain: Session["domain"];
 }
 
 const sessionRepository: Session[] = [];
@@ -65,15 +67,7 @@ export async function finishSession(sessionId: string): Promise<void> {
     session.finishedAt = new Date();
     console.log(`Session ${sessionId} finished`);
 
-    await saveSessionOnJson(session);
     await saveSessionOnDatabase(session);
-}
-
-export async function saveSessionOnJson(session: Session): Promise<void> {
-    fs.writeFile(`./src/database/sessions/${session.id}.json`, JSON.stringify(session, null, 2), (err: any) => {
-        if (err) throw err;
-        console.log(`Session ${session.id} saved on JSON`);
-    });
 }
 
 export async function saveSessionOnDatabase(session: Session): Promise<void> {

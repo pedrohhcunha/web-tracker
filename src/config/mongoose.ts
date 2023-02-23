@@ -6,7 +6,6 @@ export async function connectMongoose() {
         await connect(MONGO_URI);
     } catch (err) {
         console.error(err);
-        process.exit(1);
     }
 }
 
