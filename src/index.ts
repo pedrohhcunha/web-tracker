@@ -17,6 +17,7 @@ const io = new Server(server, {
     cors: {
         origin: '*',
         methods: ['GET', 'POST'],
+        credentials: true,
     },
 });
 
@@ -52,7 +53,7 @@ const handleConnection = (socket: Socket) => {
 
 io.on('connection', handleConnection);
 
-server.listen(3000, async () => {
+server.listen(3333, async () => {
     console.log('Listening on port 3000');
 
     await connectMongoose();
