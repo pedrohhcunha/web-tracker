@@ -54,7 +54,7 @@ const handleConnection = (socket: Socket) => {
 io.on('connection', handleConnection);
 
 server.listen(3333, async () => {
-    console.log('Listening on port 3000');
+    console.log('Listening on port 3333');
 
     await connectMongoose();
 
