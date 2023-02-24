@@ -201,6 +201,10 @@ async function getUserLocationAndIpAddress() {
     };
   } catch (error) {
     console.error('Error on fetch IP and location information');
+    return {
+      ipAddress: undefined,
+      location: undefined,
+    };
   }
 }
 
