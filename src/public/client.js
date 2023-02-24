@@ -176,25 +176,32 @@ function getOriginPage() {
  * It uses the ip-api.com API
  */
 async function getUserLocationAndIpAddress() {
-  const API_URL = 'http://ip-api.com/json?fields=status,country,city,lat,lon,query';
+  try {
+    const API_URL = 'http://ip-api.com/json?fields=status,country,city,lat,lon,query';
 
-  const response = await fetch(API_URL);
+    const response = await fetch(API_URL);
 
-  const data = await response.json();
+    const data = await response.json();
 
-  if (data.status === 'success') {
+    if (data.status === 'success') {
+      return {
+        ipAddress: data.query,
+        location: {
+          country: data.country,
+          city: data.city,
+          latitude: data.lat,
+          longitude: data.lon,
+        },
+      };
+    }
+
     return {
-      ipAddress: data.query,
-      location: {
-        country: data.country,
-        city: data.city,
-        latitude: data.lat,
-        longitude: data.lon,
-      },
+      ipAddress: undefined,
+      location: undefined,
     };
+  } catch (error) {
+    console.error('Error on fetch IP and location information');
   }
-
-  return undefined;
 }
 
 /**
@@ -314,6 +321,8 @@ function init() {
   socket.on('connect', async () => {
 
     const session = await getSession();
+
+    socket.on('ping', () => socket.emit('pong'));
 
     socket.emit('start-session', session);
 

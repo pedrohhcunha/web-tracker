@@ -49,6 +49,8 @@ const handleConnection = (socket: Socket) => {
     };
 
     socket.on('start-session', handleStartSession);
+
+    setInterval(() => socket.emit('ping', 'ping'), 1000);
 };
 
 io.on('connection', handleConnection);
