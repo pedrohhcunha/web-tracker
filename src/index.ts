@@ -53,6 +53,11 @@ const handleConnection = (socket: Socket) => {
 
 io.on('connection', handleConnection);
 
+server.on('request', (req, res) => {
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end('Server is running');
+});
+
 server.listen(3333, async () => {
     console.log('Listening on port 3333');
 
