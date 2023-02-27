@@ -18,11 +18,16 @@ interface createSessionProps {
     domain: Session["domain"];
 }
 
-const sessionRepository: Session[] = [];
+interface resumedSessionProps {
+    id: Session["id"];
+    browserId: Session["browserId"];
+}
+
+const sessionRepository: resumedSessionProps[] = [];
 
 export async function createSession(newSession: createSessionProps): Promise<Session> {
     const sessionsFromBrowserId = newSession.browserId
-        ? await findSessionByBrowserId(newSession.browserId)
+        ? await SessionModel.find({browserId: newSession.browserId})
         : undefined;
 
     const session: Session = {
@@ -34,48 +39,30 @@ export async function createSession(newSession: createSessionProps): Promise<Ses
         events: [],
     };
 
-    sessionRepository.push(session);
+    await SessionModel.create(session);
+
+    sessionRepository.push({
+        id: session.id,
+        browserId: session.browserId
+    });
 
     return session;
 }
 
-export async function findSessionByBrowserId(browserId: string): Promise<Session[]> {
-    return sessionRepository.filter(session => session.browserId === browserId);
-}
-
-export async function findSessionById(id: string): Promise<Session | undefined> {
-    return sessionRepository.find(session => session.id === id);
-}
-
 export async function addEventsToSession(sessionId: string, events: Session["events"]): Promise<void> {
-    const session = await findSessionById(sessionId);
-
-    if (!session) {
-        throw new Error(`Session with id ${sessionId} not found`);
+    try {
+        await SessionModel.updateOne({id: sessionId}, {$push: {events: {$each: events}}});
+    } catch (err) {
+        console.error(err);
     }
-
-    session.events.push(...events);
 }
 
 export async function finishSession(sessionId: string): Promise<void> {
-    const session = await findSessionById(sessionId);
-
-    if (!session) {
-        throw new Error(`Session with id ${sessionId} not found`);
-    }
-
-    session.finishedAt = new Date();
-    console.log(`Session ${sessionId} finished`);
-
-    await saveSessionOnDatabase(session);
-}
-
-export async function saveSessionOnDatabase(session: Session): Promise<void> {
     try {
-        await SessionModel.create(session);
-        console.log(`Session ${session.id} saved on database`);
-    }
-    catch (err) {
+        await SessionModel.updateOne({id: sessionId}, {finishedAt: new Date()});
+
+        sessionRepository.splice(sessionRepository.findIndex(session => session.id === sessionId), 1);
+    } catch (err) {
         console.error(err);
     }
 }
