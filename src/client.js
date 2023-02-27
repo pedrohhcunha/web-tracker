@@ -326,8 +326,6 @@ function init() {
 
     const session = await getSession();
 
-    socket.on('ping', () => socket.emit('pong'));
-
     socket.emit('start-session', session);
 
     socket.on('session-created', session => saveBrowserId(session.browserId));
