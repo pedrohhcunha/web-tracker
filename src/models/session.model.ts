@@ -60,6 +60,7 @@ const EventSchema = new Schema({
 });
 
 const SessionSchema = new Schema({
+    socketId: { type: String, required: true },
     browserId: { type: String, required: true },
     deviceType: { type: String, enum: ['mobile', 'tablet', 'desktop'],required: true },
     utmParameters: { type: UtmParametersSchema, required: false },

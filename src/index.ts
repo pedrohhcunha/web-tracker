@@ -25,21 +25,21 @@ const handleConnection = (socket: Socket) => {
     const handleStartSession = async (newSession: NewSession) => {
         const createdSession = await createSession({
             ...newSession,
-            id: socket.id,
+            socketId: socket.id,
         });
 
-        console.log(`Session created: ${createdSession.id}`);
+        console.log(`Session created: ${createdSession.socketId}`);
 
         socket.emit('session-created', createdSession);
 
         const handleEvents = async (events: Event[]) => {
-            await addEventsToSession(createdSession.id, events);
+            await addEventsToSession(createdSession.socketId, events);
 
-            console.log(`${events.length} events added to session: ${createdSession.id}`);
+            console.log(`${events.length} events added to session: ${createdSession.socketId}`);
         };
 
         const handleFinishSession = async () => {
-            await finishSession(createdSession.id);
+            await finishSession(createdSession.socketId);
         };
 
         socket.on('events', handleEvents);

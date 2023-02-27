@@ -3,7 +3,7 @@ import {randomUUID} from "crypto";
 import {SessionModel} from "../models/session.model";
 
 interface createSessionProps {
-    id: Session["id"];
+    socketId: Session["socketId"];
     browserId?: Session["browserId"];
     deviceType: Session["deviceType"];
     utmParameters: Session["utmParameters"];
@@ -16,11 +16,6 @@ interface createSessionProps {
     landingPage: Session["landingPage"];
     originPage?: Session["originPage"];
     domain: Session["domain"];
-}
-
-interface resumedSessionProps {
-    id: Session["id"];
-    browserId: Session["browserId"];
 }
 
 export async function createSession(newSession: createSessionProps): Promise<Session> {

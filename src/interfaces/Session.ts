@@ -6,7 +6,7 @@ import {Viewport} from "./Viewport";
 import {Event} from "./Event";
 import {Location} from "./Location";
 export interface Session {
-    id: string;
+    socketId: string;
     browserId: string;
     deviceType: DeviceType;
     utmParameters?: UtmParameters;
