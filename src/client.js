@@ -29,14 +29,14 @@ function getDeviceType() {
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
   if (/android/i.test(userAgent)) {
-    return 'Mobile';
+    return 'mobile';
   }
 
   if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-    return 'Tablet';
+    return 'tablet';
   }
 
-  return 'Desktop';
+  return 'desktop';
 }
 
 /**

@@ -61,7 +61,7 @@ const EventSchema = new Schema({
 
 const SessionSchema = new Schema({
     browserId: { type: String, required: true },
-    deviceType: { type: String, required: true },
+    deviceType: { type: String, enum: ['mobile', 'tablet', 'desktop'],required: true },
     utmParameters: { type: UtmParametersSchema, required: false },
     operationSystem: { type: String, enum: ['ios', 'android', 'windows', 'macos', 'linux'], required: false },
     browser: { type: String, enum: ['chrome', 'firefox', 'safari', 'edge', 'opera'], required: false },
