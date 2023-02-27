@@ -23,8 +23,6 @@ interface resumedSessionProps {
     browserId: Session["browserId"];
 }
 
-const sessionRepository: resumedSessionProps[] = [];
-
 export async function createSession(newSession: createSessionProps): Promise<Session> {
     const sessionsFromBrowserId = newSession.browserId
         ? await SessionModel.find({browserId: newSession.browserId})
@@ -41,11 +39,6 @@ export async function createSession(newSession: createSessionProps): Promise<Ses
 
     await SessionModel.create(session);
 
-    sessionRepository.push({
-        id: session.id,
-        browserId: session.browserId
-    });
-
     return session;
 }
 
@@ -60,8 +53,6 @@ export async function addEventsToSession(sessionId: string, events: Session["eve
 export async function finishSession(sessionId: string): Promise<void> {
     try {
         await SessionModel.updateOne({id: sessionId}, {finishedAt: new Date()});
-
-        sessionRepository.splice(sessionRepository.findIndex(session => session.id === sessionId), 1);
     } catch (err) {
         console.error(err);
     }
