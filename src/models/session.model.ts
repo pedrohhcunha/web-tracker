@@ -75,7 +75,7 @@ const SessionSchema = new Schema({
     domain: { type: String, required: true},
     events: { type: [EventSchema], required: true, default: [] },
     createdAt: { type: Date, required: true },
-    finishedAt: { type: Date, required: true },
+    finishedAt: { type: Date, required: false },
 });
 
 export const SessionModel = model('Session', SessionSchema);

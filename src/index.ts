@@ -40,6 +40,8 @@ const handleConnection = (socket: Socket) => {
 
         const handleFinishSession = async () => {
             await finishSession(createdSession.socketId);
+
+            console.log(`Session finished: ${createdSession.socketId}`)
         };
 
         socket.on('events', handleEvents);
