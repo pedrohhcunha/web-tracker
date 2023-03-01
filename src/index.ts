@@ -4,14 +4,16 @@ import {Socket} from "socket.io";
 import {Server} from 'socket.io';
 import {Event} from "./interfaces/Event";
 import {NewSession} from "./interfaces/NewSession";
-import {connectMongoose} from "./config/mongoose";
 import {
     addEventsToSession,
     createSession,
     finishSession,
 } from "./repositories/session.repository";
+import {setupWorker} from "@socket.io/sticky";
+import {connectMongoose} from "./config/mongoose";
 
 config();
+
 const server = http.createServer();
 const io = new Server(server, {
     cors: {
@@ -22,7 +24,10 @@ const io = new Server(server, {
 });
 
 const handleConnection = (socket: Socket) => {
+    console.log(`Connection established on worker: ${process.pid}`);
     const handleStartSession = async (newSession: NewSession) => {
+        console.log('Starting session...');
+
         const createdSession = await createSession({
             ...newSession,
             socketId: socket.id,
@@ -53,12 +58,10 @@ const handleConnection = (socket: Socket) => {
     socket.on('start-session', handleStartSession);
 };
 
-io.on('connection', handleConnection);
-
-server.listen(3333, async () => {
-    console.log('Listening on port 3333');
-
+(async () => {
     await connectMongoose();
 
-    console.log('Connected to MongoDB');
-});
+    io.on('connection', handleConnection);
+
+    setupWorker(io);
+})();

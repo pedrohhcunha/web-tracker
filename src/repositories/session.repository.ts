@@ -22,7 +22,6 @@ export async function createSession(newSession: createSessionProps): Promise<Ses
     const sessionsFromBrowserId = newSession.browserId
         ? await SessionModel.find({browserId: newSession.browserId})
         : undefined;
-
     const session: Session = {
         ...newSession,
         browserId: sessionsFromBrowserId && newSession.browserId
@@ -31,7 +30,6 @@ export async function createSession(newSession: createSessionProps): Promise<Ses
         createdAt: new Date(),
         events: [],
     };
-
     await SessionModel.create(session);
 
     return session;
