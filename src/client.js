@@ -320,7 +320,7 @@ function identifyElement(event) {
  * It sends browser events to the server, each 2 seconds.
  */
 function init() {
-  const socket = io('https://web-tracker-yucl.onrender.com');
+  const socket = io('https://webtracker-379322.ue.r.appspot.com');
 
   socket.on('connect', async () => {
 

@@ -1,0 +1,7 @@
+.gcloudignore
+.git
+.gitignore
+.history
+node_modules/
+scripts
+dist
