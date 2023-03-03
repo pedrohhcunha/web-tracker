@@ -1,0 +1,7 @@
+runtime: nodejs18
+
+instance_class: F2
+
+env_variables:
+  MONGO_URI: "mongodb+srv://<AQUI TEM QUE SETAR>:<AQUI TAMBÉM>@webtracker0.otekj4e.mongodb.net/?retryWrites=true&w=majority"
+

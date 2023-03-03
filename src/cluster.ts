@@ -22,13 +22,17 @@ if (cluster.isPrimary) {
         cluster.fork();
     });
 
-    const httpServer = http.createServer();
+    const httpServer = http.createServer((req, res) => {
+        console.log('uahuah')
+        res.writeHead(200);
+        res.end('hello world');
+    });
     setupMaster(httpServer, {
         loadBalancingMethod: 'least-connection',
     });
-
-    httpServer.listen(3333, () => {
-        console.log('Listening on port 3333');
+    const port = Number(process.env.PORT) || 3333;
+    httpServer.listen(port, '0.0.0.0', () => {
+        console.log('Listening on port ', port);
     });
 } else {
     console.log(`Worker ${process.pid} started`);
